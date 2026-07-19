@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>Karaoke Collection</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body class="bg-body-tertiary" data-bs-theme="dark">
+<div class="container py-5">
+
+  <!-- Lyrics Card -->
+  <div class="row justify-content-center mb-4">
+    <div class="col-lg">
+      <div class="card shadow-sm">
+        <!-- Header -->
+        <div class="card-header px-2 d-flex flex-row justify-content-start align-items-center">
+          <a class="d-flex align-items-center py-1 px-2" href="index.html">
+          <svg height="1.2em" viewBox="0 0 60 100">
+            <polyline points="50,8 14,50 50,92" style="fill: none;stroke: white; stroke-width: 16; stroke-linecap: round"/>
+          </svg>
+          </a>
+          <h5 class="m-0 mx-2 py-1"><span id="karaoke-artist">PLACEHOLDER</span> - <span id="karaoke-title">PLACEHOLDER</span></h5>
+        </div>
+
+        <div class="card-header px-3 d-flex flex-row justify-content-start align-items-center gap-2">
+          <a id="karaoke-source" class="badge text-decoration-none d-inline-flex px-2 fw-semibold text-success bg-success bg-opacity-10 border border-success border-opacity-10 rounded-pill"
+             href="#">source</a>
+        </div>
+
+        <!-- Body -->
+        <div id="karaoke-lyrics" class="card-body p-4">
+          PLACEHOLDER
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  async function loadLyrics() {
+      const search = new URLSearchParams(window.location.search);
+      const filename = search.get("song");
+      const res = await fetch(`res/${filename}.json`);
+      const song = await res.json()
+      document.getElementById("karaoke-artist").innerText = song.artist;
+      document.getElementById("karaoke-title").innerText = song.title;
+      document.getElementById("karaoke-source").href = song.source;
+      document.getElementById("karaoke-lyrics").innerHTML = song.lyrics.join("<br>");
+  }
+  loadLyrics();
+</script>
+</body>
+</html>

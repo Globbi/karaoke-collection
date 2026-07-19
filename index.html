@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>Karaoke Collection</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body class="bg-body-tertiary" data-bs-theme="dark">
+<div class="container py-5">
+  <!-- Lyrics Card -->
+  <div class="row justify-content-center mb-4">
+    <div class="col-lg">
+      <div class="card shadow-sm">
+        <!-- Header -->
+        <div class="card-header px-3 d-flex flex-row justify-content-start align-items-center">
+          <h5 class="m-0 mx-2 py-1">Karaoke Collection</h5>
+        </div>
+        <!-- Body -->
+        <div id="karaoke-song-list" class="card-body p-0 list-group list-group-flush">
+          <!-- filled by script -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Template -->
+  <template id="karaoke-song-entry-template">
+    <a class="karaoke-link list-group-item list-group-item-action" href="#">
+      <div class="small"><span class="fw-bold small">Anime: </span><span class="karaoke-anime small">PLACEHOLDER</span></div>
+      <div><span class="karaoke-artist">PLACEHOLDER</span> - <span class="karaoke-title">PLACEHOLDER</span></div>
+    </a>
+  </template>
+</div>
+<script>
+  async function loadSongs() {
+      const template = document.getElementById("karaoke-song-entry-template").content;
+      const list = document.getElementById("karaoke-song-list")
+      const res = await fetch(`res/songs.json`);
+      const songs = await res.json()
+      for (const song of songs) {
+          const entry = template.cloneNode(true);
+          entry.querySelector(".karaoke-link").href = "lyrics.html?song=" + song.song;
+          entry.querySelector(".karaoke-artist").innerText = song.artist;
+          entry.querySelector(".karaoke-title").innerText = song.title;
+          entry.querySelector(".karaoke-anime").innerText = song.anime;
+          list.appendChild(entry)
+      }
+  }
+  loadSongs();
+</script>
+</body>
+</html>
