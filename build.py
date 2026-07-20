@@ -1,5 +1,7 @@
 import os
 import shutil
+import sys
+
 import jinja2
 import json
 
@@ -31,7 +33,11 @@ def build():
         lyrics_html = candidate.name.replace('.json', '.html')
         # read JSON
         with open(candidate) as json_file:
-            song_data = json.load(json_file)
+            try:
+                song_data = json.load(json_file)
+            except json.decoder.JSONDecodeError as e:
+                print(f'Could not read "{candidate.path}"', file=sys.stderr)
+                raise e
         # store metadata for later
         song_overview.append({
             'anime': song_data['anime'],
