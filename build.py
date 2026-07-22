@@ -48,6 +48,7 @@ def build():
         # render lyrics
         jinja_env.get_template('lyrics/lyrics.html').stream(song_data).dump(os.path.join(TARGET_DIR, LYRICS_DIR, lyrics_html))
     # render index
+    song_overview.sort(key=lambda x: x['artist'].lower())
     jinja_env.get_template('index.html').stream(song_overview = song_overview).dump(os.path.join(TARGET_DIR, 'index.html'))
 
 if __name__ == '__main__':
